@@ -8,6 +8,10 @@ public class Bombarde extends Piece {
         super(nom, couleur);
     }
 
+    public Bombarde(String nom, String couleur) {
+        super(nom, couleur);
+    }
+
     @Override
     public boolean estValide(Position depart, Position arrivee) {
         return depart.getLigne() == arrivee.getLigne() || depart.getColonne() == arrivee.getColonne();

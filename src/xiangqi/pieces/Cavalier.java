@@ -8,6 +8,10 @@ public class Cavalier extends Piece {
         super(nom, couleur);
     }
 
+    public Cavalier(String nom, String couleur) {
+        super(nom, couleur);
+    }
+
     @Override
     public boolean estValide(Position depart, Position arrivee) {
         if (depart.equals(arrivee)) {

@@ -8,6 +8,10 @@ public class Pion extends Piece {
         super(nom, couleur);
     }
 
+    public Pion(String nom, String couleur) {
+        super(nom, couleur);
+    }
+
     @Override
     public boolean estValide(Position depart, Position arrivee) {
         final Couleur couleur = this.getCouleur();

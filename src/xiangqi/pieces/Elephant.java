@@ -8,6 +8,10 @@ public class Elephant extends Piece {
         super(nom, couleur);
     }
 
+    public Elephant(String nom, String couleur) {
+        super(nom, couleur);
+    }
+
     @Override
     public boolean estValide(Position depart, Position arrivee) {
         if (depart.equals(arrivee)) {

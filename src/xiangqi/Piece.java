@@ -24,6 +24,13 @@ public abstract class Piece {
 
 // constructeur permettant d'initialiser le nom et la couleur d'un objet Piece
 
+    public Piece(String nom, String couleur) {
+        setNom(nom);
+        if (couleur.equals("rouge") || couleur.equals("noir"))
+            setCouleur(couleur.equals("rouge") ? Couleur.ROUGE : Couleur.NOIR);
+        else throw new RuntimeException("Wrong Couleur " + couleur);
+    }
+
     public Piece(String nom, Couleur couleur) {
         setNom(nom);
         setCouleur(couleur);
