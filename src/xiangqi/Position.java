@@ -57,6 +57,13 @@ public class Position {
         );
     }
 
+    public Position substract(@NotNull Position pos) {
+        return new Position(
+                this.getLigne() - pos.getLigne(),
+                this.getColonne() - pos.getColonne()
+        );
+    }
+
     public Position times(int k) {
         return new Position(
                 this.getLigne() * k,

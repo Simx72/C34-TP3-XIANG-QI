@@ -38,12 +38,59 @@ public class Echiquier implements MethodesEchiquier {
 
     @Override
     public Intersection getIntersection(int ligne, int colonne) {
+        if (ligne < 0 || ligne >= HEIGHT || colonne < 0 || colonne >= WIDTH)
+            return null;
         return jeu[ligne][colonne];
     }
 
     @Override
     public boolean cheminPossible(Position depart, Position arrivee) {
-        
+        final Piece piece = getIntersection(depart.getLigne(), depart.getColonne()).getPiece();
+        return switch (piece.getType()) {
+            case BOMBARDE -> false;
+            case CAVALIER -> cheminPossibleCavalier(depart, arrivee);
+            case CHAR -> cheminPossibleSelonPieceDarrivee(depart, arrivee) && cheminPossibleSelonRienDansLeChemin(depart, arrivee);
+            case ELEPHANT -> false;
+            case MANDARIN, ROI -> cheminPossibleSelonPieceDarrivee(depart, arrivee);
+            case PION -> false;
+        };
+    }
+
+    private boolean cheminPossibleSelonRienDansLeChemin(Position depart, Position arrivee) {
+        int target = 1;
+        if (getIntersection(arrivee.getLigne(), arrivee.getColonne()).estOccupee())
+            target = 2;
+        return countInsideRect(depart, arrivee) <= target;
+    }
+
+    private boolean cheminPossibleSelonPieceDarrivee(Position depart, Position arrivee) {
+        Intersection departIntersection = getIntersection(depart.getLigne(), depart.getColonne());
+        Intersection arriveeIntersection = getIntersection(arrivee.getLigne(), arrivee.getColonne());
+        return !arriveeIntersection.estOccupee() || arriveeIntersection.getPiece().getCouleur() != departIntersection.getPiece().getCouleur();
+    }
+
+    private boolean cheminPossibleCavalier(Position depart, Position arrivee) {
+        final Position diff = arrivee.substract(depart);
+        final boolean isVerticalMove = Math.abs(diff.getLigne()) > Math.abs(diff.getColonne());
+        if (isVerticalMove) {
+            // if is up
+            if (diff.getLigne() < 0) {
+                // check that nothing is up
+                return !getIntersection(depart.getLigne() - 1, depart.getColonne()).estOccupee();
+            } else {
+                // check that nothing is down
+                return !getIntersection(depart.getLigne() + 1, depart.getColonne()).estOccupee();
+            }
+        } else {
+            // if is left
+            if (diff.getColonne() < 0) {
+                // check that nothing is left
+                return !getIntersection(depart.getLigne(), depart.getColonne() - 1).estOccupee();
+            } else {
+                // check that nothing is right
+                return !getIntersection(depart.getLigne(), depart.getColonne() + 1).estOccupee();
+            }
+        }
     }
 
     @Override
