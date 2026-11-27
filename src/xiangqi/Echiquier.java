@@ -47,27 +47,37 @@ public class Echiquier implements MethodesEchiquier {
     public boolean cheminPossible(Position depart, Position arrivee) {
         final Piece piece = getIntersection(depart.getLigne(), depart.getColonne()).getPiece();
         return switch (piece.getType()) {
-            case BOMBARDE -> false;
+            case BOMBARDE -> cheminPossibleBombarde(depart, arrivee);
             case CAVALIER -> cheminPossibleCavalier(depart, arrivee);
             case CHAR ->
-                    cheminPossibleSelonPieceDarrivee(depart, arrivee) && cheminPossibleSelonRienDansLeChemin(depart, arrivee);
+                    (arriveeEstVide(arrivee) || arriveeHasDifferentColorThanDepart(depart, arrivee)) && expectedPiecesDansLeChemin(depart, arrivee, 0);
             case ELEPHANT -> cheminPossibleElephant(depart, arrivee);
-            case MANDARIN, ROI -> cheminPossibleSelonPieceDarrivee(depart, arrivee);
-            case PION -> false;
+            case MANDARIN, ROI, PION -> arriveeEstVide(arrivee) || arriveeHasDifferentColorThanDepart(depart, arrivee);
         };
     }
 
-    private boolean cheminPossibleSelonRienDansLeChemin(Position depart, Position arrivee) {
-        int target = 1;
-        if (getIntersection(arrivee.getLigne(), arrivee.getColonne()).estOccupee())
-            target = 2;
-        return countInsideRect(depart, arrivee) <= target;
+    private boolean cheminPossibleBombarde(Position depart, Position arrivee) {
+        return (expectedPiecesDansLeChemin(depart, arrivee, 1) && arriveeHasDifferentColorThanDepart(depart, arrivee))
+                || (expectedPiecesDansLeChemin(depart, arrivee, 0) && arriveeEstVide(arrivee));
     }
 
-    private boolean cheminPossibleSelonPieceDarrivee(Position depart, Position arrivee) {
+    private boolean expectedPiecesDansLeChemin(Position depart, Position arrivee, int expectedNbPieces) {
+        int actualNbPieces = countInsideRect(depart, arrivee) - 1;
+        // if arrivee est occupée
+        if (getIntersection(arrivee.getLigne(), arrivee.getColonne()).estOccupee())
+            actualNbPieces -= 1;
+        return actualNbPieces == expectedNbPieces;
+    }
+
+    private boolean arriveeEstVide(Position arrivee) {
+        Intersection arriveeIntersection = getIntersection(arrivee.getLigne(), arrivee.getColonne());
+        return !arriveeIntersection.estOccupee();
+    }
+
+    private boolean arriveeHasDifferentColorThanDepart(Position depart, Position arrivee) {
         Intersection departIntersection = getIntersection(depart.getLigne(), depart.getColonne());
         Intersection arriveeIntersection = getIntersection(arrivee.getLigne(), arrivee.getColonne());
-        return !arriveeIntersection.estOccupee() || arriveeIntersection.getPiece().getCouleur() != departIntersection.getPiece().getCouleur();
+        return arriveeIntersection.getPiece().getCouleur() != departIntersection.getPiece().getCouleur();
     }
 
     private boolean cheminPossibleCavalier(Position depart, Position arrivee) {
