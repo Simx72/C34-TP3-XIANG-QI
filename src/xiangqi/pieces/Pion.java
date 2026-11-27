@@ -28,4 +28,9 @@ public class Pion extends Piece {
                     arrivee.getLigne() == depart.getLigne() &&
                     Math.abs(arrivee.getColonne() - depart.getColonne()) == 1;
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.PION;
+    }
 }

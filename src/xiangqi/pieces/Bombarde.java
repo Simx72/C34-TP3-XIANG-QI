@@ -16,4 +16,9 @@ public class Bombarde extends Piece {
     public boolean estValide(Position depart, Position arrivee) {
         return depart.getLigne() == arrivee.getLigne() || depart.getColonne() == arrivee.getColonne();
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.BOMBARDE;
+    }
 }

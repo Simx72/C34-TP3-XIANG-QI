@@ -19,4 +19,9 @@ public class Mandarin extends Piece {
         }
         return isInPalace(arrivee) && this.norme(depart, arrivee) == 2;
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.MANDARIN;
+    }
 }

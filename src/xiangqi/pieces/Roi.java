@@ -23,4 +23,9 @@ public class Roi extends Piece {
         final boolean isInPalace = isInPalace(arrivee);
         return moveOne && isInPalace;
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.ROI;
+    }
 }

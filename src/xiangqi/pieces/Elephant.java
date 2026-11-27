@@ -19,4 +19,9 @@ public class Elephant extends Piece {
         }
         return this.norme(depart, arrivee) == 8 && this.onOwnSide(arrivee);
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.ELEPHANT;
+    }
 }

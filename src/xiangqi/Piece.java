@@ -21,6 +21,17 @@ public abstract class Piece {
      */
     private Couleur couleur;
 
+    protected enum Type {
+        BOMBARDE,
+        CAVALIER,
+        CHAR,
+        ELEPHANT,
+        MANDARIN,
+        PION,
+        ROI
+    }
+
+    protected abstract Type getType();
 
 // constructeur permettant d'initialiser le nom et la couleur d'un objet Piece
 

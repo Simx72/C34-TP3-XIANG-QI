@@ -19,4 +19,9 @@ public class Cavalier extends Piece {
         }
         return this.norme(depart, arrivee) == 5;
     }
+
+    @Override
+    protected Piece.Type getType() {
+        return Type.CAVALIER;
+    }
 }
