@@ -43,7 +43,7 @@ public class Echiquier implements MethodesEchiquier {
 
     @Override
     public boolean cheminPossible(Position depart, Position arrivee) {
-        return false;
+        
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Echiquier implements MethodesEchiquier {
         int count = 0;
         for (int l = minLigne; l <= maxLigne; l++) {
             for (int c = minColonne; c <= maxColonne; c++) {
-                if (!getIntersection(l, c).estOccupee()) {
+                if (getIntersection(l, c).estOccupee()) {
                     count++;
                 }
             }
