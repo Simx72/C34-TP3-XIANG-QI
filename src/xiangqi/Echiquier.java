@@ -54,6 +54,20 @@ public class Echiquier implements MethodesEchiquier {
         final IntersectionAvecPosition rougeAvant = rois.stream().filter(p -> p.intersection.getPiece().getCouleur() == Piece.Couleur.ROUGE).findFirst().orElseThrow();
         final IntersectionAvecPosition noirAvant = rois.stream().filter(p -> p.intersection.getPiece().getCouleur() == Piece.Couleur.NOIR).findFirst().orElseThrow();
 
+        // copy game
+        final Echiquier jeuCopy = new Echiquier();
+        jeuCopy.getStream().forEach(i -> {
+            i.intersection.setPiece(
+                    getIntersection(i.position.getLigne(), i.position.getColonne()).getPiece()
+            );
+        });
+        // make move
+        {
+            final Piece startPiece = start.getPiece();
+            jeuCopy.getIntersection(startPos.getLigne(), startPos.getColonne()).setPiece(null);
+            jeuCopy.getIntersection(endPos.getLigne(), endPos.getColonne()).setPiece(startPiece);
+        }
+
         // if just moved a king
         if (start.getPiece() instanceof Roi) {
             // get the other king
@@ -63,16 +77,16 @@ public class Echiquier implements MethodesEchiquier {
                             ? rougeAvant // other is red
                             : noirAvant; // else, noir
             // return true if "start" not facing "other"
-            final boolean sameColumn = startPos.getColonne() == other.position.getColonne();
-            final boolean pieceInBetween = countInsideRect(startPos, other.position) > 2;
-            return !sameColumn || !pieceInBetween;
+            final boolean sameColumn = endPos.getColonne() == other.position.getColonne();
+            final boolean pieceInBetween = jeuCopy.countInsideRect(endPos, other.position) > 2;
+            return !sameColumn || pieceInBetween;
         }
         // if moved something that's not a king
         else {
             // return true if "rouge" not facing "noir"
             final boolean sameColumn = rougeAvant.position.getColonne() == noirAvant.position.getColonne();
-            final boolean pieceInBetween = countInsideRect(rougeAvant.position, noirAvant.position) > 2;
-            return !sameColumn || !pieceInBetween;
+            final boolean pieceInBetween = jeuCopy.countInsideRect(rougeAvant.position, noirAvant.position) > 2;
+            return !sameColumn || pieceInBetween;
         }
     }
 
