@@ -50,7 +50,7 @@ public class Echiquier implements MethodesEchiquier {
             case BOMBARDE -> false;
             case CAVALIER -> cheminPossibleCavalier(depart, arrivee);
             case CHAR -> cheminPossibleSelonPieceDarrivee(depart, arrivee) && cheminPossibleSelonRienDansLeChemin(depart, arrivee);
-            case ELEPHANT -> false;
+            case ELEPHANT -> true;
             case MANDARIN, ROI -> cheminPossibleSelonPieceDarrivee(depart, arrivee);
             case PION -> false;
         };
