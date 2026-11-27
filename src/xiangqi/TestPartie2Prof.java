@@ -6,8 +6,6 @@ import xiangqi.pieces.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TestPartie2Prof {
-
-
     Cavalier cRouge, cRouge2, cNoir;
     Roi rRouge, rNoir;
     Char tRouge, tRouge2, tNoir, tNoir2;
