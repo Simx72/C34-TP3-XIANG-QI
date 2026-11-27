@@ -49,8 +49,9 @@ public class Echiquier implements MethodesEchiquier {
         return switch (piece.getType()) {
             case BOMBARDE -> false;
             case CAVALIER -> cheminPossibleCavalier(depart, arrivee);
-            case CHAR -> cheminPossibleSelonPieceDarrivee(depart, arrivee) && cheminPossibleSelonRienDansLeChemin(depart, arrivee);
-            case ELEPHANT -> true;
+            case CHAR ->
+                    cheminPossibleSelonPieceDarrivee(depart, arrivee) && cheminPossibleSelonRienDansLeChemin(depart, arrivee);
+            case ELEPHANT -> cheminPossibleElephant(depart, arrivee);
             case MANDARIN, ROI -> cheminPossibleSelonPieceDarrivee(depart, arrivee);
             case PION -> false;
         };
@@ -89,6 +90,32 @@ public class Echiquier implements MethodesEchiquier {
             } else {
                 // check that nothing is right
                 return !getIntersection(depart.getLigne(), depart.getColonne() + 1).estOccupee();
+            }
+        }
+    }
+
+    private boolean cheminPossibleElephant(Position depart, Position arrivee) {
+        final Position diff = arrivee.substract(depart);
+        // is up
+        if (diff.getLigne() < 0) {
+            // if is up-left
+            if (diff.getColonne() < 0) {
+                // check that nothing is up-left
+                return !getIntersection(depart.getLigne() - 1, depart.getColonne() - 1).estOccupee();
+            } else {
+                // check that nothing is up-right
+                return !getIntersection(depart.getLigne() - 1, depart.getColonne() + 1).estOccupee();
+            }
+        }
+        // is down
+        else {
+            // if is down-left
+            if (diff.getColonne() < 0) {
+                // check that nothing is down-left
+                return !getIntersection(depart.getLigne() + 1, depart.getColonne() - 1).estOccupee();
+            } else {
+                // check that nothing is down-right
+                return !getIntersection(depart.getLigne() + 1, depart.getColonne() + 1).estOccupee();
             }
         }
     }
